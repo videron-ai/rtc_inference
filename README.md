@@ -26,7 +26,7 @@ Core RTC inference script with interactive task switching.
 - PEFT / LoRA model support
 
 **Supported policies:** SmolVLA, Pi0, Pi0.5
-**Supported robots:** SO100 follower, KOCH follower
+**Supported robots:** SO100 follower, SO101 follower, KOCH follower
 
 ### `eval_with_real_robot_entropy.py`
 
@@ -70,6 +70,26 @@ python eval_with_real_robot.py \
   --task="pick up the red block" \
   --fps=30 \
   --duration=60
+```
+
+**Example — Pi0.5 with dual cameras on SO101:**
+
+```bash
+python3 eval_with_real_robot.py \
+  --policy.path=staudi25/pi05_lego_maximus_aug_30k \
+  --device=cuda \
+  --rtc.enabled=true \
+  --policy.compile_model=true \
+  --rtc.execution_horizon=10 \
+  --rtc.max_guidance_weight=10.0 \
+  --robot.type=so101_follower \
+  --robot.port=/dev/follower \
+  --robot.id=videron_follower \
+  --robot.calibration_dir=/Experiments \
+  --robot.cameras="{desk_cam: {type: opencv, index_or_path: 1, width: 640, height: 480, fps: 30, fourcc: 'MJPG'}, gripper: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30, fourcc: 'MJPG'}}" \
+  --task="Put all the legos on the table in the blue bowl" \
+  --duration=1000 \
+  --fps=30
 ```
 
 For entropy-based recovery:
